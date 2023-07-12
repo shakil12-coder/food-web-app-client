@@ -1,31 +1,34 @@
-import React, { useState  } from "react";
-import { Link , useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [credentials, setcredentials] = useState({ email: "", password: "" });
   let navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/loginuser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: credentials.email,
-        password: credentials.password,
-      }),
-    });
+    const response = await fetch(
+      "https://food-web-app-server.onrender.com/api/loginuser",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: credentials.email,
+          password: credentials.password,
+        }),
+      }
+    );
     const json = await response.json();
     console.log(json);
     if (!json.success) {
       alert("Enter valid credentials");
     }
-    if(json.success){
-      localStorage.setItem("userEmail" , credentials.email);
-      localStorage.setItem("authToken" , json.authToken);
+    if (json.success) {
+      localStorage.setItem("userEmail", credentials.email);
+      localStorage.setItem("authToken", json.authToken);
       // console.log(localStorage.getItem("authToken"));
-      navigate("/")
+      navigate("/");
     }
   };
   const onChange = (event) => {
@@ -70,7 +73,7 @@ function Login() {
             Submit
           </button>
           <Link to="/createuser" className="m-3 btn btn-danger">
-          I am a new user
+            I am a new user
           </Link>
         </form>
       </div>

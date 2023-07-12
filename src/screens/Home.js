@@ -3,18 +3,20 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Card from "../components/Card";
 
-
 function Home() {
-  const [search , setSearch] = useState([''])
+  const [search, setSearch] = useState([""]);
   const [foodCat, setFoodCat] = useState([]);
   const [foodItem, setFoodItem] = useState([]);
   const loadData = async () => {
-    let response = await fetch("http://localhost:5000/api/foodData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let response = await fetch(
+      "https://food-web-app-server.onrender.com/api/foodData",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     response = await response.json();
     // console.log(response[0] , response[1]);
 
@@ -47,7 +49,9 @@ function Home() {
                   placeholder="Search"
                   aria-label="Search"
                   value={search}
-                  onChange={(e)=>{setSearch(e.target.value)}}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -105,16 +109,25 @@ function Home() {
 
       <div className="container">
         {foodCat !== [] ? (
+          foodCat &&
           foodCat.map((data) => {
             return (
               <div className="row mb-3" key={data._id}>
-                <div  className="fs-3 m-3">
-                  {data.CategoryName}
-                </div>
+                <div className="fs-3 m-3">{data.CategoryName}</div>
                 <hr />
                 {foodItem !== [] ? (
                   foodItem
-                    .filter((item) => item.CategoryName === data.CategoryName && (item.name.toLowerCase().includes(search && typeof search === 'string' ? search.toLowerCase() : '')))
+                    .filter(
+                      (item) =>
+                        item.CategoryName === data.CategoryName &&
+                        item.name
+                          .toLowerCase()
+                          .includes(
+                            search && typeof search === "string"
+                              ? search.toLowerCase()
+                              : ""
+                          )
+                    )
 
                     .map((filterItems) => {
                       return (
@@ -122,10 +135,9 @@ function Home() {
                           key={filterItems._id}
                           className="col-12 col-md-6 col-lg-3"
                         >
-                          <Card foodItem = {filterItems}
-                            
+                          <Card
+                            foodItem={filterItems}
                             options={filterItems.options[0]}
-                            
                           />
                         </div>
                       );

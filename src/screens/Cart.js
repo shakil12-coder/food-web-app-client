@@ -14,17 +14,20 @@ function Cart() {
   const handleCheckOut = async () => {
     let userEmail = localStorage.getItem("userEmail");
     console.log("userEmail : ", userEmail);
-    let response = await fetch("http://localhost:5000/api/orderData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        order_data: data,
-        email: userEmail,
-        order_date: new Date().toDateString(),
-      }),
-    });
+    let response = await fetch(
+      "https://food-web-app-server.onrender.com/api/orderData",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          order_data: data,
+          email: userEmail,
+          order_date: new Date().toDateString(),
+        }),
+      }
+    );
     console.log("order response :", response);
     if (response.status === 200) {
       dispatch({ type: "DROP" });
